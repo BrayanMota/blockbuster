@@ -1,3 +1,4 @@
+import 'package:blockbuster_system/apps/production/pages/detail.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/search_field.dart';
@@ -53,7 +54,7 @@ class _ProductionListState extends State<ProductionList> {
           controller: _searchFieldController,
           search: (value) {
             if (_searchFieldController.text.isNotEmpty) {
-              _searchProduction(context, _searchFieldController.text.trim());
+              _searchProduction(_searchFieldController.text.trim());
             }
           },
         ),
@@ -76,51 +77,60 @@ class _ProductionListState extends State<ProductionList> {
   }
 
   Widget _buildProduction(ProductionModel production) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: Theme.of(context).colorScheme.outline,
-          width: 1,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ProductionDetail(productionModel: production),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: Theme.of(context).colorScheme.outline,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(10),
         ),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network(
-              production.poster,
-              height: 200.0,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Text(
-                production.title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.clip,
-                textAlign: TextAlign.center,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.network(
+                production.poster,
+                height: 200.0,
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Text(
+                  production.title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   /// Método responsável por carregar os dados da API
-  void _searchProduction(BuildContext context, String search) async {
+  void _searchProduction(String search) async {
     try {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       _productionList.clear();
-      _productionList = await _service.testeRequisicao(search);
+      _productionList = await _service.getProductions(search);
       if (_productionList.isNotEmpty) {
         setState(() {});
       } else {
