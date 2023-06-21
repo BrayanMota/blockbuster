@@ -103,13 +103,32 @@ class _ProductionListState extends State<ProductionList> {
         );
       },
       child: Container(
-        margin: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(
+          horizontal: 20.0,
+          vertical: 10.0,
+        ),
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1.0,
+            color: Colors.grey,
+          ),
+          borderRadius: BorderRadius.circular(
+            20.0,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network(
-              production.poster,
-              height: 200.0,
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: Image.network(
+                production.poster,
+                height: 200.0,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(
               height: 10,
