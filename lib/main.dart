@@ -1,5 +1,6 @@
-import 'package:blockbuster_system/pages/pre_home.dart';
 import 'package:flutter/material.dart';
+
+import 'apps/production/pages/list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const PreHomePage(),
+      // home: const PreHomePage(),
+      home: const ProductionList(),
     );
   }
 }

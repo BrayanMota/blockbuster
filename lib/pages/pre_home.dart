@@ -15,7 +15,7 @@ class _PreHomePageState extends State<PreHomePage> {
   late int _indexCurrentPage;
 
   final _pages = const [
-    HomePage(),
+    // HomePage(),
     ProductionList(),
   ];
 
