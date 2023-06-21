@@ -128,6 +128,11 @@ class _ProductionListState extends State<ProductionList> {
                 production.poster,
                 height: 200.0,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  'assets/production.jpg',
+                  height: 200.0,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(

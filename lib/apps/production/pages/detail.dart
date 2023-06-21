@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../../widgets/labels.dart';
 import '../../../widgets/search_field.dart';
@@ -26,7 +27,9 @@ class _ProductionDetailState extends State<ProductionDetail> {
 
   @override
   void initState() {
-    _searchProduction(widget.productionModel.imdbID);
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
+      _searchProduction(widget.productionModel.imdbID);
+    });
     super.initState();
   }
 
@@ -62,6 +65,10 @@ class _ProductionDetailState extends State<ProductionDetail> {
             Image.network(
               _productionModel.poster,
               height: 200.0,
+              errorBuilder: (context, error, stackTrace) => Image.asset(
+                'assets/production.jpg',
+                height: 200.0,
+              ),
             ),
             CustomLabelDetailPages(
               title: 'Título',
@@ -90,18 +97,6 @@ class _ProductionDetailState extends State<ProductionDetail> {
     try {
       _productionModel = await _service.getProduction(imdbID);
       setState(() {});
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     backgroundColor: Colors.yellow,
-      //     content: Text(
-      //       'Nenhuma produção encontrada.',
-      //       style: TextStyle(
-      //         fontWeight: FontWeight.bold,
-      //         color: Colors.black,
-      //       ),
-      //     ),
-      //   ),
-      // );
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
