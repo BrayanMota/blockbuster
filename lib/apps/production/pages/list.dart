@@ -40,7 +40,8 @@ class _ProductionListState extends State<ProductionList> {
       slivers: [
         const CustomSliverAppBar(leadingPop: false),
         _buildSearchField(context),
-        _buildListProductions(context),
+        _buildGridProductions(context),
+        // _buildListProductions(context),
       ],
     );
   }
@@ -58,6 +59,22 @@ class _ProductionListState extends State<ProductionList> {
             }
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildGridProductions(BuildContext context) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      sliver: SliverGrid.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.6,
+        ),
+        itemBuilder: (context, index) {
+          return _buildProduction(_productionList[index]);
+        },
+        itemCount: _productionList.length,
       ),
     );
   }
@@ -85,41 +102,31 @@ class _ProductionListState extends State<ProductionList> {
           ),
         );
       },
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: Theme.of(context).colorScheme.outline,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.network(
-                production.poster,
-                height: 200.0,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: Text(
-                  production.title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
+      child: Container(
+        margin: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.network(
+              production.poster,
+              height: 200.0,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: Text(
+                production.title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
+                maxLines: 3,
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
